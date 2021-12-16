@@ -104,85 +104,92 @@ async function renderData() {
 	// console.log(participants);
 
 	// render the sorted participants' data
-	var trophy_colors = ["#D4AF37", "#C0C0C0", "#9F7A34"];
+	
 	var score_card = document.getElementsByClassName("score-card");
 	for (var i = 0; i < participants.length; i++) {
 		var participant = participants[i];
 
-		var leader = document.createElement("div");
-		leader.classList.add("leader");
-
-		// 	<div class="user">
-		// 		<div class="number">1</div>
-		// 		<div class="d-flex user-pic justify-content-center align-items-center">
-		// 			<i class="bi bi-trophy-fill" style="color: #D4AF37;"></i>
-		// 		</div>
-		// 	</div>
-		var user = document.createElement("div");
-		user.classList.add("user");
-
-		var number = document.createElement("div");
-		number.classList.add("number");
-		number.innerHTML = "" + (i + 1);
-		user.appendChild(number);
-
-		var user_pic = document.createElement("div");
-		if (i < 3) {
-			user_pic.classList.add("user-pic", "d-flex", "justify-content-center", "align-items-center");
-
-			var ii = document.createElement("i");
-			ii.classList.add("bi", "bi-trophy-fill");
-			ii.style.color = trophy_colors[i];
-
-			user_pic.appendChild(ii);
-		} else {
-			user_pic.classList.add("no-crown", "d-flex", "justify-content-center", "align-items-center");
-		}
-		user.appendChild(number);
-		user.appendChild(user_pic);
-
-		// 	<div class="user-info">
-		// 		<div class="user-name">Peter Wang</div>
-		// 		<div class="view-count">Total Points: 114</div>
-		// 	</div>
-		var user_info = document.createElement("div");
-		user_info.classList.add("user-info");
-		var user_name = document.createElement("div");
-		user_name.classList.add("user-name");
-		user_name.innerHTML = participant.name;
-		var view_count = document.createElement("div");
-		view_count.classList.add("view-count");
-		view_count.innerHTML = "Total Points: " + participant.total;
-		user_info.appendChild(user_name);
-		user_info.appendChild(view_count);
-
-		// 	<div class="gallery text-center">
-		// 		<div class="gallery-item">Streak<br>7</div>
-		// 		<div class="gallery-item">Read<br>7</div>
-		// 		<div class="gallery-item">Rate<br>7</div>
-		// 	</div>
-		var gallery = document.createElement("div");
-		gallery.classList.add("gallery", "text-center");
-		var gallery_item = document.createElement("div");
-		gallery_item.classList.add("gallery-item");
-		gallery_item.innerHTML = "Streak<br>\n" + participant.streak;
-		gallery.appendChild(gallery_item);
-		gallery_item = document.createElement("div");
-		gallery_item.classList.add("gallery-item");
-		gallery_item.innerHTML = "Read<br>\n" + participant.read;
-		gallery.appendChild(gallery_item);
-		gallery_item = document.createElement("div");
-		gallery_item.classList.add("gallery-item");
-		gallery_item.innerHTML = "Rate<br>\n" + participant.rate;
-		gallery.appendChild(gallery_item);
-	
-		
-		leader.appendChild(user);
-		leader.appendChild(user_info);
-		leader.appendChild(gallery);
+		var leader = createLeaderElement(i, participant.streak, participant.read, participant.rate);
 
 		score_card[0].appendChild(leader);
 	}
+}
+
+function createLeaderElement(pos, streak, read, rate) {
+	var trophy_colors = ["#D4AF37", "#C0C0C0", "#9F7A34"];
+
+	// 	<div class="user">
+	// 		<div class="number">1</div>
+	// 		<div class="user-pic d-flex justify-content-center align-items-center">
+	// 			<i class="bi bi-trophy-fill" style="color: #D4AF37;"></i>
+	// 		</div>
+	// 	</div>
+	var number = document.createElement("div");
+	number.classList.add("number");
+	number.innerHTML = "" + (pos + 1);
+
+	var user_pic = document.createElement("div");
+	if (pos < 3) {
+		user_pic.classList.add("user-pic", "d-flex", "justify-content-center", "align-items-center");
+
+		var ii = document.createElement("i");
+		ii.classList.add("bi", "bi-trophy-fill");
+		ii.style.color = trophy_colors[pos];
+
+		user_pic.appendChild(ii);
+	} else {
+		user_pic.classList.add("no-crown", "d-flex", "justify-content-center", "align-items-center");
+	}
+
+	var user = document.createElement("div");
+	user.classList.add("user");
+	user.appendChild(number);
+	user.appendChild(user_pic);
+
+	// 	<div class="user-info">
+	// 		<div class="user-name">Peter Wang</div>
+	// 		<div class="view-count">Total Points: 114</div>
+	// 	</div>
+	var user_name = document.createElement("div");
+	user_name.classList.add("user-name");
+	user_name.innerHTML = participant.name;
+
+	var view_count = document.createElement("div");
+	view_count.classList.add("view-count");
+	view_count.innerHTML = "Total Points: " + participant.total;
+
+	var user_info = document.createElement("div");
+	user_info.classList.add("user-info");
+	user_info.appendChild(user_name);
+	user_info.appendChild(view_count);
+
+	// 	<div class="gallery text-center">
+	// 		<div class="gallery-item">Streak<br>7</div>
+	// 		<div class="gallery-item">Read<br>7</div>
+	// 		<div class="gallery-item">Rate<br>7</div>
+	// 	</div>
+	var gallery = document.createElement("div");
+	gallery.classList.add("gallery", "text-center");
+	var gallery_item = document.createElement("div");
+	gallery_item.classList.add("gallery-item");
+	gallery_item.innerHTML = "Streak<br>\n" + streak;
+	gallery.appendChild(gallery_item);
+	gallery_item = document.createElement("div");
+	gallery_item.classList.add("gallery-item");
+	gallery_item.innerHTML = "Read<br>\n" + read;
+	gallery.appendChild(gallery_item);
+	gallery_item = document.createElement("div");
+	gallery_item.classList.add("gallery-item");
+	gallery_item.innerHTML = "Rate<br>\n" + rate;
+	gallery.appendChild(gallery_item);
+
+	var leader = document.createElement("div");
+	leader.classList.add("leader");
+	leader.appendChild(user);
+	leader.appendChild(user_info);
+	leader.appendChild(gallery);
+
+	return leader;
 }
 
 renderData();
