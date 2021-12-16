@@ -109,13 +109,13 @@ async function renderData() {
 	for (var i = 0; i < participants.length; i++) {
 		var participant = participants[i];
 
-		var leader = createLeaderElement(i, participant.streak, participant.read, participant.rate);
+		var leader = createLeaderElement(i, participant);
 
 		score_card[0].appendChild(leader);
 	}
 }
 
-function createLeaderElement(pos, streak, read, rate) {
+function createLeaderElement(pos, participant) {
 	var trophy_colors = ["#D4AF37", "#C0C0C0", "#9F7A34"];
 
 	// 	<div class="user">
@@ -172,15 +172,15 @@ function createLeaderElement(pos, streak, read, rate) {
 	gallery.classList.add("gallery", "text-center");
 	var gallery_item = document.createElement("div");
 	gallery_item.classList.add("gallery-item");
-	gallery_item.innerHTML = "Streak<br>\n" + streak;
+	gallery_item.innerHTML = "Streak<br>\n" + participant.streak;
 	gallery.appendChild(gallery_item);
 	gallery_item = document.createElement("div");
 	gallery_item.classList.add("gallery-item");
-	gallery_item.innerHTML = "Read<br>\n" + read;
+	gallery_item.innerHTML = "Read<br>\n" + participant.read;
 	gallery.appendChild(gallery_item);
 	gallery_item = document.createElement("div");
 	gallery_item.classList.add("gallery-item");
-	gallery_item.innerHTML = "Rate<br>\n" + rate;
+	gallery_item.innerHTML = "Rate<br>\n" + participant.rate;
 	gallery.appendChild(gallery_item);
 
 	var leader = document.createElement("div");
